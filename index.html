@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Sauce — One PLC, Five Games</title>
+<style>
+  :root {
+    --bg: #0e1116;
+    --panel: #161b22;
+    --panel-2: #1c2230;
+    --border: #2a313c;
+    --text: #e6edf3;
+    --muted: #9aa7b4;
+    --accent: #ff7a45;
+    --accent-2: #4aa8ff;
+    --live: #3fb950;
+    --built: #d29922;
+    --broken: #f85149;
+    --idle: #6e7681;
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f8fa;
+      --panel: #ffffff;
+      --panel-2: #f0f3f7;
+      --border: #d5dbe2;
+      --text: #1c2128;
+      --muted: #5a6570;
+      --accent: #e5561f;
+      --accent-2: #1f6feb;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+  /* Hero */
+  header.hero {
+    background:
+      radial-gradient(1200px 400px at 80% -10%, rgba(255,122,69,.25), transparent 60%),
+      radial-gradient(900px 400px at 0% 0%, rgba(74,168,255,.18), transparent 55%),
+      var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 0 48px;
+  }
+  .kicker {
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+  h1 { font-size: 2.6rem; line-height: 1.1; margin: 0 0 16px; letter-spacing: -.02em; }
+  .lede { font-size: 1.15rem; color: var(--muted); max-width: 68ch; margin: 0; }
+  .hero-meta { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--panel-2); border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 999px; font-size: .85rem; color: var(--muted);
+  }
+  .chip code { color: var(--text); font-size: .82rem; }
+
+  section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+  h2 { font-size: 1.6rem; margin: 0 0 8px; letter-spacing: -.01em; }
+  h2 .num { color: var(--accent); font-weight: 700; margin-right: 10px; }
+  .section-lede { color: var(--muted); margin: 0 0 28px; max-width: 70ch; }
+
+  /* Architecture flow */
+  .flow {
+    display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px;
+  }
+  .node {
+    flex: 1 1 130px; background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px; text-align: center; min-width: 120px;
+  }
+  .node .role { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .node .name { font-weight: 700; margin-top: 4px; }
+  .node.hub { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+
+  /* Cards grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px;
+  }
+  .card h3 { margin: 0 0 6px; font-size: 1.1rem; }
+  .card p { margin: 0 0 12px; color: var(--muted); font-size: .92rem; }
+  .card .tag { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8rem; color: var(--accent-2); }
+
+  /* Status badges */
+  .badge {
+    display: inline-block; font-size: .72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .04em;
+    padding: 2px 9px; border-radius: 999px; border: 1px solid;
+  }
+  .b-live   { color: var(--live);   border-color: var(--live);   background: rgba(63,185,80,.10); }
+  .b-built  { color: var(--built);  border-color: var(--built);  background: rgba(210,153,34,.10); }
+  .b-broken { color: var(--broken); border-color: var(--broken); background: rgba(248,81,73,.10); }
+  .b-idle   { color: var(--idle);   border-color: var(--idle);   background: rgba(110,118,129,.12); }
+
+  /* Status table */
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); }
+  th { background: var(--panel-2); font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  tr:last-child td { border-bottom: none; }
+  td .sub { color: var(--muted); font-size: .85rem; }
+
+  /* Photo placeholders */
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  figure.photo {
+    margin: 0; background: var(--panel); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .photo .frame {
+    aspect-ratio: 4 / 3; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+    background:
+      repeating-linear-gradient(45deg, var(--panel-2) 0 12px, transparent 12px 24px),
+      var(--panel-2);
+    color: var(--muted); text-align: center; padding: 16px;
+  }
+  .photo .frame .icon { font-size: 1.8rem; opacity: .7; }
+  .photo .frame .hint { font-size: .82rem; }
+  .photo .frame code { font-size: .78rem; color: var(--text); }
+  figure.photo img { width: 100%; height: auto; display: block; }
+  figure.photo figcaption { padding: 10px 14px; font-size: .85rem; color: var(--muted); }
+
+  .callout {
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent); border-radius: 8px;
+    padding: 14px 18px; margin: 20px 0; font-size: .92rem; color: var(--muted);
+  }
+  footer { padding: 40px 0 60px; color: var(--muted); font-size: .88rem; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 20px; }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; font-size: .82rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Open Sauce · Maker &amp; Tech Expo Build</p>
+    <h1>One real PLC.<br>Five games and a wall of panels.</h1>
+    <p class="lede">
+      A single AutomationDirect Productivity1000 industrial controller sits at the
+      center of a booth where video games, a web SCADA dashboard, a Minecraft mod,
+      and hand-built Arduino control panels all speak the same language: Modbus TCP.
+      Pull a physical throttle and an airship moves in Minecraft. Press a button and
+      a rocket launches in Kerbal Space Program. It's all wired to the same box.
+    </p>
+    <div class="hero-meta">
+      <span class="chip">Controller <code>P1-622 PLC</code></span>
+      <span class="chip">Protocol <code>Modbus TCP</code></span>
+      <span class="chip">Server target <code>10.142.142.105:502</code></span>
+      <span class="chip">Up to <code>16</code> concurrent clients</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO PHOTO ============ -->
+<section>
+  <div class="wrap">
+    <figure class="photo" style="max-width:100%;">
+      <div class="frame" style="aspect-ratio: 21 / 9;">
+        <div class="icon">📷</div>
+        <div class="hint">Booth hero shot — the whole setup on the table</div>
+        <div class="hint">Replace this block with <code>&lt;img src="images/booth-wide.jpg" alt="The Open Sauce booth"&gt;</code></div>
+      </div>
+      <figcaption>The booth at Open Sauce.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section>
+  <div class="wrap">
+    <h2><span class="num">01</span>How it all connects</h2>
+    <p class="section-lede">
+      Every subproject is a Modbus <strong>client</strong>. The PLC is the one
+      shared <strong>server</strong> in the middle. Inputs (buttons, throttles,
+      keypads) flow in, the PLC runs the control logic, and outputs flow back out
+      to the games and dashboards — each project on its own reserved coils and
+      registers so nothing steps on anything else.
+    </p>
+    <div class="flow">
+      <div class="node"><div class="role">Input</div><div class="name">Arduino Panels</div></div>
+      <div class="node hub"><div class="role">Hub · Server</div><div class="name">P1-622 PLC</div></div>
+      <div class="node"><div class="role">Client</div><div class="name">Minecraft (CC Modbus)</div></div>
+      <div class="node"><div class="role">Client</div><div class="name">Kerbal (kRPC bridge)</div></div>
+      <div class="node"><div class="role">Client</div><div class="name">Timberborn</div></div>
+      <div class="node"><div class="role">Client</div><div class="name">FUXA Web SCADA</div></div>
+    </div>
+
+    <figure class="photo" style="margin-top:22px;">
+      <div class="frame" style="aspect-ratio: 16 / 6;">
+        <div class="icon">📷</div>
+        <div class="hint">Close-up of the P1-622 PLC and wiring</div>
+        <div class="hint"><code>images/plc-closeup.jpg</code></div>
+      </div>
+      <figcaption>The hub: a real AutomationDirect Productivity1000 P1-622.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ SUBPROJECTS ============ -->
+<section>
+  <div class="wrap">
+    <h2><span class="num">02</span>The pieces</h2>
+    <p class="section-lede">Each of these is its own build, wired into the same controller.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>🚁 Minecraft Airship</h3>
+        <p>A physical throttle, steering wheel, and lift lever drive a Create-mod
+           airship in-game through a custom CC:&nbsp;Tweaked Modbus mod.</p>
+        <span class="tag">CC Modbus · Arduino HelmIO</span>
+      </div>
+      <div class="card">
+        <h3>🚀 Kerbal Space Program</h3>
+        <p>Press a button on the console and the PLC flies a full launch,
+           ascent, and orbital-circularization sequence via a kRPC↔Modbus bridge.</p>
+        <span class="tag">kRPC Web ModBus Tool</span>
+      </div>
+      <div class="card">
+        <h3>🌊 Timberborn</h3>
+        <p>The PLC opens and closes floodgate clusters across a beaver city,
+           mirroring drought and flood cycles as real automation logic.</p>
+        <span class="tag">Timberborn mod</span>
+      </div>
+      <div class="card">
+        <h3>📊 FUXA Web SCADA</h3>
+        <p>A browser dashboard visualizing live PLC state — floodgates, tags,
+           and sensor values — exactly like a real industrial HMI.</p>
+        <span class="tag">FUXA · Docker on SBC</span>
+      </div>
+      <div class="card">
+        <h3>🎛️ Arduino Panels</h3>
+        <p>Three hand-built Arduino Mega I/O panels — HelmIO, ConsoleIO, and
+           OperatorIO — with buttons, keypads, and gauges wired to the PLC.</p>
+        <span class="tag">HelmIO · ConsoleIO · OperatorIO</span>
+      </div>
+      <div class="card">
+        <h3>🛠️ CAD &amp; Enclosure</h3>
+        <p>FreeCAD parts for the physical build: a ship's wheel, throttle,
+           gauge cluster, and mounting stand that hold the whole booth together.</p>
+        <span class="tag">Open Sauce CAD</span>
+      </div>
+    </div>
+
+    <div class="gallery" style="margin-top:22px;">
+      <figure class="photo">
+        <div class="frame"><div class="icon">📷</div><div class="hint">Minecraft airship panel</div><div class="hint"><code>images/minecraft.jpg</code></div></div>
+        <figcaption>Throttle &amp; helm → airship.</figcaption>
+      </figure>
+      <figure class="photo">
+        <div class="frame"><div class="icon">📷</div><div class="hint">KSP launch console</div><div class="hint"><code>images/ksp.jpg</code></div></div>
+        <figcaption>The launch button in action.</figcaption>
+      </figure>
+      <figure class="photo">
+        <div class="frame"><div class="icon">📷</div><div class="hint">Arduino panel wiring</div><div class="hint"><code>images/panels.jpg</code></div></div>
+        <figcaption>Behind the panels.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATUS ============ -->
+<section>
+  <div class="wrap">
+    <h2><span class="num">03</span>What's working</h2>
+    <p class="section-lede">
+      Status as last confirmed at the event. The booth hardware is powered down
+      post-event, so every <em>Live</em> below is last-known-live, not re-checked
+      against running hardware.
+    </p>
+    <div class="legend">
+      <span><span class="badge b-live">Live</span> ran for real at the event</span>
+      <span><span class="badge b-built">Built</span> works, never deployed</span>
+      <span><span class="badge b-broken">Broken</span> tried, misbehaves</span>
+      <span><span class="badge b-idle">Planned</span> not started</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Minecraft throttle / steering / lift</td>
+            <td><span class="badge b-live">Live</span></td>
+            <td class="sub">End-to-end on real hardware, survived an in-game reboot</td>
+          </tr>
+          <tr>
+            <td>Minecraft altitude/velocity telemetry</td>
+            <td><span class="badge b-live">Live</span></td>
+            <td class="sub">Writing live flight data back to the PLC</td>
+          </tr>
+          <tr>
+            <td>KSP launch → ascent → circularize (~100 km)</td>
+            <td><span class="badge b-live">Live</span></td>
+            <td class="sub">Fully PLC-driven, flown repeatably</td>
+          </tr>
+          <tr>
+            <td>KSP core separation + Hohmann transfer</td>
+            <td><span class="badge b-broken">Broken</span></td>
+            <td class="sub">Spent core won't jettison; button-2 Hohmann regressed at the event</td>
+          </tr>
+          <tr>
+            <td>Timberborn floodgate control (19 clusters)</td>
+            <td><span class="badge b-live">Live</span></td>
+            <td class="sub">PLC task replicates native drought/flood raise &amp; lower</td>
+          </tr>
+          <tr>
+            <td>Timberborn valve/setpoint logic</td>
+            <td><span class="badge b-built">Built</span></td>
+            <td class="sub">Registers respond; the ladder that computes setpoints is missing</td>
+          </tr>
+          <tr>
+            <td>FUXA web dashboard</td>
+            <td><span class="badge b-live">Live</span></td>
+            <td class="sub">On the SBC; 6 of 25 tags still lack backing PLC registers</td>
+          </tr>
+          <tr>
+            <td>Arduino HelmIO / ConsoleIO / OperatorIO</td>
+            <td><span class="badge b-live">Live</span></td>
+            <td class="sub">HelmIO &amp; ConsoleIO live; OperatorIO flashed, some coils untagged</td>
+          </tr>
+          <tr>
+            <td>World reset / rollback paths</td>
+            <td><span class="badge b-built">Built</span></td>
+            <td class="sub">Docker bake &amp; teleport tooling verified offline, never triggered</td>
+          </tr>
+          <tr>
+            <td>Player teleport</td>
+            <td><span class="badge b-idle">Planned</span></td>
+            <td class="sub">Script exists, needs player names &amp; destination coords</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MORE PHOTOS ============ -->
+<section>
+  <div class="wrap">
+    <h2><span class="num">04</span>Gallery</h2>
+    <p class="section-lede">Drop more shots in here — build progress, wiring, screens, crowd reactions.</p>
+    <div class="gallery">
+      <figure class="photo"><div class="frame"><div class="icon">📷</div><div class="hint"><code>images/gallery-1.jpg</code></div></div><figcaption>Caption…</figcaption></figure>
+      <figure class="photo"><div class="frame"><div class="icon">📷</div><div class="hint"><code>images/gallery-2.jpg</code></div></div><figcaption>Caption…</figcaption></figure>
+      <figure class="photo"><div class="frame"><div class="icon">📷</div><div class="hint"><code>images/gallery-3.jpg</code></div></div><figcaption>Caption…</figcaption></figure>
+      <figure class="photo"><div class="frame"><div class="icon">📷</div><div class="hint"><code>images/gallery-4.jpg</code></div></div><figcaption>Caption…</figcaption></figure>
+      <figure class="photo"><div class="frame"><div class="icon">📷</div><div class="hint"><code>images/gallery-5.jpg</code></div></div><figcaption>Caption…</figcaption></figure>
+      <figure class="photo"><div class="frame"><div class="icon">📷</div><div class="hint"><code>images/gallery-6.jpg</code></div></div><figcaption>Caption…</figcaption></figure>
+    </div>
+    <div class="callout">
+      <strong>Adding photos:</strong> create an <code>images/</code> folder next to this file,
+      drop your JP/PNGs in, and replace each <code>&lt;div class="frame"&gt;…&lt;/div&gt;</code>
+      block with <code>&lt;img src="images/your-photo.jpg" alt="describe it"&gt;</code>.
+      Keep the surrounding <code>&lt;figure&gt;</code> and <code>&lt;figcaption&gt;</code> tags.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Open Sauce — a hardware-in-the-loop maker build connecting a real industrial
+       PLC to games, dashboards, and custom control panels over Modbus TCP.</p>
+    <p>Built by Todd · Powered by an AutomationDirect Productivity1000 P1-622.</p>
+  </div>
+</footer>
+
+</body>
+</html>

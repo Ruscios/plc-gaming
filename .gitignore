@@ -1,0 +1,9 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*~
+.vscode/
+.idea/
+
+# Nothing from the private working repo belongs here.
+# Keep this directory limited to the website and its assets.
