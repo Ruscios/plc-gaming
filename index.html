@@ -124,7 +124,7 @@
 
   /* schematic */
   .schematic {
-    display: grid; grid-template-columns: 1fr auto 1.2fr; align-items: center; gap: 0;
+    display: grid; grid-template-columns: 1fr auto 1.15fr auto 1fr; align-items: center; gap: 0;
     border: 1px solid var(--rule); background: var(--paper); padding: 26px 22px;
   }
   .stage-label {
@@ -147,7 +147,7 @@
   }
   .hub .n { font-size: 1.1rem; color: var(--ink); }
   .hub .r { color: var(--accent); }
-  .clients { display: grid; gap: 10px; }
+  .clients, .stack { display: grid; gap: 10px; }
   .link {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 0 14px; gap: 4px; color: var(--faint);
@@ -309,27 +309,37 @@
   <div class="wrap">
     <div class="sec-head"><span class="sec-no">01 /</span><h2>How it all connects</h2></div>
     <p class="sec-lede">
-      Every game and dashboard is a Modbus <strong>client</strong>. The PLC is the one
+      Physical panels on the left are Modbus <strong>clients</strong>; the PLC is the one
       shared <strong>server</strong> in the middle. Inputs flow in, the PLC runs the
-      control logic, and outputs flow back out — each project on its own reserved coils
-      and registers so nothing steps on anything else.
+      control logic, and the games read the results on the right — each on its own
+      reserved coils and registers so nothing steps on anything else.
     </p>
     <div class="schematic">
-      <div>
-        <div class="stage-label">Input</div>
-        <div class="block"><div class="n">Arduino Panels</div><div class="r">throttle · keypad · buttons</div></div>
+      <div class="stage">
+        <div class="stage-label">Input · Panels</div>
+        <div class="stack">
+          <div class="block"><div class="n">HelmIO</div><div class="r">throttle · wheel · lift</div></div>
+          <div class="block"><div class="n">ConsoleIO</div><div class="r">keypad · buttons</div></div>
+        </div>
       </div>
       <div class="link">
         <span class="proto">Modbus</span>
         <span class="wire">──▶</span>
       </div>
-      <div>
-        <div class="stage-label">Clients · Output</div>
+      <div class="stage">
+        <div class="stage-label">Hub · Server</div>
         <div class="hub"><div class="n">P1-622 PLC</div><div class="r mono">HUB · SERVER</div></div>
-        <div class="clients" style="margin-top:12px;">
+        <div class="block" style="margin-top:10px;"><div class="n">kRPC Web Bridge</div><div class="r">KSP ↔ Modbus</div></div>
+      </div>
+      <div class="link">
+        <span class="proto">reads</span>
+        <span class="wire">──▶</span>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Games · Output</div>
+        <div class="stack">
           <div class="block"><div class="n">Minecraft</div><div class="r">CC Modbus mod</div></div>
-          <div class="block"><div class="n">Kerbal Space Program</div><div class="r">kRPC ↔ Modbus bridge</div></div>
-          <div class="block"><div class="n">FUXA Web SCADA</div><div class="r">live HMI dashboard</div></div>
+          <div class="block"><div class="n">Kerbal Space Program</div><div class="r">via kRPC bridge</div></div>
         </div>
       </div>
     </div>
@@ -468,28 +478,6 @@
       Both featured games — the Minecraft airship and the KSP launch sequence — ran live
       for real visitors. Everything else here is the supporting rig that makes them go.
     </p>
-  </div>
-</section>
-
-<!-- ============ GALLERY ============ -->
-<section>
-  <div class="wrap">
-    <div class="sec-head"><span class="sec-no">04 /</span><h2>Plates</h2></div>
-    <p class="sec-lede">More shots — build progress, wiring, screens, crowd reactions.</p>
-    <div class="plates">
-      <figure class="plate"><div class="frame"><div class="mark">PLATE 05</div><div class="hint"><code>images/gallery-1.jpg</code></div></div><figcaption>caption…</figcaption></figure>
-      <figure class="plate"><div class="frame"><div class="mark">PLATE 06</div><div class="hint"><code>images/gallery-2.jpg</code></div></div><figcaption>caption…</figcaption></figure>
-      <figure class="plate"><div class="frame"><div class="mark">PLATE 07</div><div class="hint"><code>images/gallery-3.jpg</code></div></div><figcaption>caption…</figcaption></figure>
-      <figure class="plate"><div class="frame"><div class="mark">PLATE 08</div><div class="hint"><code>images/gallery-4.jpg</code></div></div><figcaption>caption…</figcaption></figure>
-      <figure class="plate"><div class="frame"><div class="mark">PLATE 09</div><div class="hint"><code>images/gallery-5.jpg</code></div></div><figcaption>caption…</figcaption></figure>
-      <figure class="plate"><div class="frame"><div class="mark">PLATE 10</div><div class="hint"><code>images/gallery-6.jpg</code></div></div><figcaption>caption…</figcaption></figure>
-    </div>
-    <div class="howto">
-      <b>Adding photos:</b> create an <code>images/</code> folder next to this file, drop your
-      JPG/PNGs in, and replace each <code>&lt;div class="frame"&gt;…&lt;/div&gt;</code> block with
-      <code>&lt;img src="images/your-photo.jpg" alt="describe it"&gt;</code>. Keep the surrounding
-      <code>&lt;figure&gt;</code> and <code>&lt;figcaption&gt;</code> tags.
-    </div>
   </div>
 </section>
 
