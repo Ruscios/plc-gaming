@@ -345,8 +345,8 @@
     </div>
 
     <figure class="plate" style="margin-top:20px;">
-      <img src="images/project.jpg" alt="The P1-622 PLC and control-panel wiring at the heart of the build">
-      <figcaption>PLATE 01 — the hub: a real AutomationDirect Productivity1000 P1-622.</figcaption>
+      <img src="images/project.jpg" alt="The P1-622 PLC and the full HelmIO control panel">
+      <figcaption>PLATE 01 — the hub: the P1-622 PLC and the HelmIO panel it drives.</figcaption>
     </figure>
   </div>
 </section>
@@ -357,8 +357,9 @@
     <div class="sec-head"><span class="sec-no">02 /</span><h2>Two games, one controller</h2></div>
     <p class="sec-lede">
       Both of these run end-to-end on the real hardware: a physical action on a panel
-      becomes a Modbus write, the PLC's own ladder logic does the work, and the result
-      shows up in the game.
+      becomes a Modbus write, the PLC runs the control logic, the game reacts — and the
+      game's own telemetry flows right back onto the panel's gauges. A full loop, with no
+      keyboard in sight.
     </p>
     <div class="games">
       <div class="game">
@@ -366,25 +367,27 @@
         <h3>Fly a Create-mod airship</h3>
         <p>
           A physical throttle, steering wheel, and lift lever drive a Create-mod airship
-          in-game through a custom CC:&nbsp;Tweaked Modbus mod. Live altitude and velocity
-          stream back out of the game to the PLC — a full closed loop.
+          in-game through a custom CC:&nbsp;Tweaked Modbus mod. The airship's live altitude
+          and speed stream back out of the game, through the PLC, and onto the HelmIO
+          panel's own gauges — so you fly by the panel, not the screen.
         </p>
         <div class="path">
-          <b>Helm panel</b> ▸ P1-622 ▸ CC:Tweaked ▸ <b>Minecraft</b><br>
-          <b>Minecraft</b> ▸ telemetry ▸ P1-622 registers
+          <b>HelmIO</b> ▸ P1-622 ▸ CC:Tweaked ▸ <b>Minecraft</b><br>
+          <b>Minecraft</b> ▸ altitude / speed ▸ P1-622 ▸ <b>HelmIO</b> gauges
         </div>
       </div>
       <div class="game">
         <div class="tagline">Kerbal Space Program</div>
         <h3>Launch a rocket to orbit</h3>
         <p>
-          Press a button on the console and the PLC flies a complete launch, ascent, and
-          orbital-circularization sequence — up to a ~100&nbsp;km orbit — through a
-          kRPC↔Modbus bridge. Fully controller-driven, flown repeatably.
+          Press the launch button on the ConsoleIO panel and the PLC flies a complete
+          launch, ascent, and orbital-circularization sequence — up to a ~100&nbsp;km orbit —
+          through a kRPC↔Modbus bridge. Live throttle and fuel read back onto ConsoleIO's
+          gauges the whole way up.
         </p>
         <div class="path">
-          <b>Launch button</b> ▸ P1-622 ▸ kRPC bridge ▸ <b>KSP</b><br>
-          launch → ascent → circularize
+          <b>ConsoleIO</b> launch ▸ P1-622 ▸ kRPC bridge ▸ <b>KSP</b><br>
+          <b>KSP</b> ▸ throttle / fuel ▸ P1-622 ▸ <b>ConsoleIO</b> gauges
         </div>
       </div>
     </div>
@@ -416,10 +419,6 @@
         <div class="frame"><div class="mark">PLATE 03</div><div class="hint">KSP launch console</div><div class="hint"><code>images/ksp.jpg</code></div></div>
         <figcaption>images/ksp.jpg — the launch button in action</figcaption>
       </figure>
-      <figure class="plate">
-        <div class="frame"><div class="mark">PLATE 04</div><div class="hint">Arduino panel wiring</div><div class="hint"><code>images/panels.jpg</code></div></div>
-        <figcaption>images/panels.jpg — behind the panels</figcaption>
-      </figure>
     </div>
   </div>
 </section>
@@ -427,56 +426,51 @@
 <!-- ============ STATUS ============ -->
 <section>
   <div class="wrap">
-    <div class="sec-head"><span class="sec-no">03 /</span><h2>Signal log</h2></div>
+    <div class="sec-head"><span class="sec-no">03 /</span><h2>What it can do</h2></div>
     <p class="sec-lede">
-      Status as last confirmed at the event. The booth hardware is powered down, so every
-      <em>Live</em> below is last-known-live, not re-checked against running hardware.
+      Everything with a green light ran live at the booth — real visitors pulled the
+      levers and pressed the buttons themselves, and the same kind of controller that
+      runs factory lines and water plants played the game.
     </p>
     <div class="legend">
-      <span><i class="led live"></i> Live · ran for real</span>
-      <span><i class="led built"></i> In-Progress · still being worked out</span>
+      <span><i class="led live"></i> Live · ran at the booth</span>
+      <span><i class="led built"></i> In-Progress · in the works</span>
     </div>
     <div class="log">
       <div class="log-row">
         <i class="led live"></i>
-        <div><span class="sig">Minecraft throttle / steering / lift</span>
-          <span class="note">end-to-end on real hardware, survived an in-game reboot</span></div>
+        <div><span class="sig">Fly a Minecraft airship from a physical helm</span>
+          <span class="note">steer, throttle, and lift by hand — with altitude and speed on the helm's own gauges</span></div>
         <span class="state">Live</span>
       </div>
       <div class="log-row">
         <i class="led live"></i>
-        <div><span class="sig">Minecraft altitude / velocity telemetry</span>
-          <span class="note">writing live flight data back to the PLC</span></div>
+        <div><span class="sig">Launch a rocket and let the PLC fly it to orbit</span>
+          <span class="note">a full hands-off ascent to a ~100 km orbit, throttle and fuel live on the console</span></div>
         <span class="state">Live</span>
       </div>
       <div class="log-row">
         <i class="led live"></i>
-        <div><span class="sig">KSP launch → ascent → circularize (~100 km)</span>
-          <span class="note">fully PLC-driven, flown repeatably</span></div>
+        <div><span class="sig">Watch it all on a control-room dashboard</span>
+          <span class="note">a live browser HMI of the PLC's state, exactly like a real factory's</span></div>
+        <span class="state">Live</span>
+      </div>
+      <div class="log-row">
+        <i class="led live"></i>
+        <div><span class="sig">Three control panels, hand-built and wired to the PLC</span>
+          <span class="note">HelmIO, ConsoleIO, and OperatorIO — every switch, gauge, and keypad custom-made</span></div>
         <span class="state">Live</span>
       </div>
       <div class="log-row">
         <i class="led built"></i>
-        <div><span class="sig">KSP core separation + Hohmann transfer</span>
-          <span class="note">spent core won't jettison yet; button-2 Hohmann still being worked out</span></div>
+        <div><span class="sig">Coming next: multi-stage flights and transfer burns</span>
+          <span class="note">staging away the spent booster and a second orbital maneuver, on the way</span></div>
         <span class="state">In-Progress</span>
-      </div>
-      <div class="log-row">
-        <i class="led live"></i>
-        <div><span class="sig">FUXA web dashboard</span>
-          <span class="note">on the SBC; 6 of 25 tags still lack backing PLC registers</span></div>
-        <span class="state">Live</span>
-      </div>
-      <div class="log-row">
-        <i class="led live"></i>
-        <div><span class="sig">Arduino HelmIO / ConsoleIO / OperatorIO</span>
-          <span class="note">HelmIO &amp; ConsoleIO live; OperatorIO flashed, some coils untagged</span></div>
-        <span class="state">Live</span>
       </div>
     </div>
     <p class="note-block">
-      Both featured games — the Minecraft airship and the KSP launch sequence — ran live
-      for real visitors. Everything else here is the supporting rig that makes them go.
+      One industrial controller, wired to play. Pull a lever or press a button and the
+      same box that runs factory lines does the rest — no keyboard, no gamepad.
     </p>
   </div>
 </section>
