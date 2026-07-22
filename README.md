@@ -5,8 +5,8 @@ Productivity1000 P1-622 industrial PLC driving two games (a Minecraft airship
 and a Kerbal Space Program launch sequence) and a wall of custom control panels
 over Modbus TCP.
 
-The build was **first exhibited at Open Sauce 2026**; PLC Gaming is its own
-project and is not affiliated with the event.
+The build was **first exhibited at Open Sauce 2026**. Built by Todd Bertels
+and Tyler Kelley.
 
 This repo is **publish-only**: it holds the website and its photos, and nothing
 from the private working repo (network addresses, SSH aliases, PLC program
