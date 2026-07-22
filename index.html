@@ -311,8 +311,8 @@
     <p class="sec-lede">
       Physical panels on the left are Modbus <strong>clients</strong>; the PLC is the one
       shared <strong>server</strong> in the middle. Inputs flow in, the PLC runs the
-      control logic, and the games read the results on the right — each on its own
-      reserved coils and registers so nothing steps on anything else.
+      control logic, and the games read the results on the right — all over the
+      ModBus TCP Protocol.
     </p>
     <div class="schematic">
       <div class="stage">
@@ -346,7 +346,7 @@
 
     <figure class="plate" style="margin-top:20px;">
       <img src="images/project.jpg" alt="The P1-622 PLC and the full HelmIO control panel">
-      <figcaption>PLATE 01 — the hub: the P1-622 PLC and the HelmIO panel it drives.</figcaption>
+      <figcaption>PLATE 01 — the hub: the P1-622 PLC and the HelmIO panel.</figcaption>
     </figure>
   </div>
 </section>
@@ -369,7 +369,7 @@
           A physical throttle, steering wheel, and lift lever drive a Create-mod airship
           in-game through a custom CC:&nbsp;Tweaked Modbus mod. The airship's live altitude
           and speed stream back out of the game, through the PLC, and onto the HelmIO
-          panel's own gauges — so you fly by the panel, not the screen.
+          panel's own gauges.
         </p>
         <div class="path">
           <b>HelmIO</b> ▸ P1-622 ▸ CC:Tweaked ▸ <b>Minecraft</b><br>
@@ -417,9 +417,8 @@
   <div class="wrap">
     <div class="sec-head"><span class="sec-no">03 /</span><h2>What it can do</h2></div>
     <p class="sec-lede">
-      Everything with a green light ran live at the booth — real visitors pulled the
-      levers and pressed the buttons themselves, and the same kind of controller that
-      runs factory lines and water plants played the game.
+      Everything with a green light ran live at the booth — visitors pulled the
+      levers and pressed the buttons themselves.
     </p>
     <div class="legend">
       <span><i class="led live"></i> Live · ran at the booth</span>
@@ -440,12 +439,6 @@
       </div>
       <div class="log-row">
         <i class="led live"></i>
-        <div><span class="sig">Watch it all on a control-room dashboard</span>
-          <span class="note">a live browser HMI of the PLC's state, exactly like a real factory's</span></div>
-        <span class="state">Live</span>
-      </div>
-      <div class="log-row">
-        <i class="led live"></i>
         <div><span class="sig">Three control panels, hand-built and wired to the PLC</span>
           <span class="note">HelmIO, ConsoleIO, and OperatorIO — every switch, gauge, and keypad custom-made</span></div>
         <span class="state">Live</span>
@@ -457,10 +450,6 @@
         <span class="state">In-Progress</span>
       </div>
     </div>
-    <p class="note-block">
-      One industrial controller, wired to play. Pull a lever or press a button and the
-      same box that runs factory lines does the rest — no keyboard, no gamepad.
-    </p>
   </div>
 </section>
 
