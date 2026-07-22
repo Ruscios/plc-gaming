@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Open Sauce — One PLC, Five Games</title>
+<title>Open Sauce — One PLC, Real Games</title>
 <style>
   :root {
     --bg: #0e1116;
@@ -155,11 +155,11 @@
 <header class="hero">
   <div class="wrap">
     <p class="kicker">Open Sauce · Maker &amp; Tech Expo Build</p>
-    <h1>One real PLC.<br>Five games and a wall of panels.</h1>
+    <h1>One real PLC.<br>Real games, real panels.</h1>
     <p class="lede">
       A single AutomationDirect Productivity1000 industrial controller sits at the
-      center of a booth where video games, a web SCADA dashboard, a Minecraft mod,
-      and hand-built Arduino control panels all speak the same language: Modbus TCP.
+      center of a booth where video games and hand-built Arduino control panels all
+      speak the same language: Modbus TCP.
       Pull a physical throttle and an airship moves in Minecraft. Press a button and
       a rocket launches in Kerbal Space Program. It's all wired to the same box.
     </p>
@@ -190,7 +190,7 @@
       Every subproject is a Modbus <strong>client</strong>. The PLC is the one
       shared <strong>server</strong> in the middle. Inputs (buttons, throttles,
       keypads) flow in, the PLC runs the control logic, and outputs flow back out
-      to the games and dashboards — each project on its own reserved coils and
+      to the games — each project on its own reserved coils and
       registers so nothing steps on anything else.
     </p>
     <div class="flow">
@@ -198,8 +198,6 @@
       <div class="node hub"><div class="role">Hub · Server</div><div class="name">P1-622 PLC</div></div>
       <div class="node"><div class="role">Client</div><div class="name">Minecraft (CC Modbus)</div></div>
       <div class="node"><div class="role">Client</div><div class="name">Kerbal (kRPC bridge)</div></div>
-      <div class="node"><div class="role">Client</div><div class="name">Timberborn</div></div>
-      <div class="node"><div class="role">Client</div><div class="name">FUXA Web SCADA</div></div>
     </div>
 
     <figure class="photo" style="margin-top:22px;">
@@ -226,18 +224,6 @@
         <p>Press a button on the console and the PLC flies a full launch,
            ascent, and orbital-circularization sequence via a kRPC↔Modbus bridge.</p>
         <span class="tag">kRPC Web ModBus Tool</span>
-      </div>
-      <div class="card">
-        <h3>🌊 Timberborn</h3>
-        <p>The PLC opens and closes floodgate clusters across a beaver city,
-           mirroring drought and flood cycles as real automation logic.</p>
-        <span class="tag">Timberborn mod</span>
-      </div>
-      <div class="card">
-        <h3>📊 FUXA Web SCADA</h3>
-        <p>A browser dashboard visualizing live PLC state — floodgates, tags,
-           and sensor values — exactly like a real industrial HMI.</p>
-        <span class="tag">FUXA · Docker on SBC</span>
       </div>
       <div class="card">
         <h3>🎛️ Arduino Panels</h3>
@@ -267,7 +253,6 @@
     <div class="legend">
       <span><span class="badge b-live">Live</span> ran for real at the event</span>
       <span><span class="badge b-built">Built</span> works, never deployed</span>
-      <span><span class="badge b-broken">Broken</span> tried, misbehaves</span>
       <span><span class="badge b-idle">Planned</span> not started</span>
     </div>
     <div class="table-scroll">
@@ -288,26 +273,6 @@
             <td>KSP launch → ascent → circularize (~100 km)</td>
             <td><span class="badge b-live">Live</span></td>
             <td class="sub">Fully PLC-driven, flown repeatably</td>
-          </tr>
-          <tr>
-            <td>KSP core separation + Hohmann transfer</td>
-            <td><span class="badge b-broken">Broken</span></td>
-            <td class="sub">Spent core won't jettison; button-2 Hohmann regressed at the event</td>
-          </tr>
-          <tr>
-            <td>Timberborn floodgate control (19 clusters)</td>
-            <td><span class="badge b-live">Live</span></td>
-            <td class="sub">PLC task replicates native drought/flood raise &amp; lower</td>
-          </tr>
-          <tr>
-            <td>Timberborn valve/setpoint logic</td>
-            <td><span class="badge b-built">Built</span></td>
-            <td class="sub">Registers respond; the ladder that computes setpoints is missing</td>
-          </tr>
-          <tr>
-            <td>FUXA web dashboard</td>
-            <td><span class="badge b-live">Live</span></td>
-            <td class="sub">On the SBC; 6 of 25 tags still lack backing PLC registers</td>
           </tr>
           <tr>
             <td>Arduino HelmIO / ConsoleIO / OperatorIO</td>
@@ -333,7 +298,7 @@
 <footer>
   <div class="wrap">
     <p>Open Sauce — a hardware-in-the-loop maker build connecting a real industrial
-       PLC to games, dashboards, and custom control panels over Modbus TCP.</p>
+       PLC to games and custom control panels over Modbus TCP.</p>
     <p>Built by Todd · Powered by an AutomationDirect Productivity1000 P1-622.</p>
   </div>
 </footer>
