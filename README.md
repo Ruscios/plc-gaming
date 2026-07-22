@@ -1,7 +1,7 @@
 # PLC Gaming Website
 
-Public landing page for the **Open Sauce** build — one real AutomationDirect
-Productivity1000 P1-622 industrial PLC driving five games and a wall of custom
+Public landing page for the **PLC Gaming** build — one real AutomationDirect
+Productivity1000 P1-622 industrial PLC driving two games and a wall of custom
 control panels over Modbus TCP.
 
 This repo is **publish-only**: it holds the website and its photos, and nothing
